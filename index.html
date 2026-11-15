@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Descuentos en restaurantes, cafés y bares con tarjetas de bancos chilenos, por región y ciudad. Se actualiza los días 2 y 15 de cada mes.">
+<title>Mesa con Descuento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: banda de encabezado + barra de filtros fija; franja semanal de "platos"; grilla de tarjetas con el descuento servido en un plato */
+:root{
+  --bg:#f3f5ef; --surface:#ffffff; --ink:#1c2320; --muted:#5b685f; --line:#dbe2d6; --plate:#eef1e9; --plate-rim:#d5dccf;
+  --head:#20302a; --head-ink:#f3f5ef; --head-muted:#b9c8bd;
+  --saffron:#e39b10; --chili:#cf3f26; --basil:#3a8a4c; --plain:#6c7a70; --warn:#b5600d; --warn-bg:#fdf0dc;
+  --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body:"DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111613; --surface:#1a201c; --ink:#ebf0e8; --muted:#9aa79e; --line:#2a332d; --plate:#212924; --plate-rim:#34403a;
+  --head:#0c100e; --head-ink:#ebf0e8; --head-muted:#94a69a;
+  --saffron:#f2b23c; --chili:#ec6a50; --basil:#62b276; --plain:#8d9b91; --warn:#f0a65a; --warn-bg:#33261a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111613; --surface:#1a201c; --ink:#ebf0e8; --muted:#9aa79e; --line:#2a332d; --plate:#212924; --plate-rim:#34403a;
+  --head:#0c100e; --head-ink:#ebf0e8; --head-muted:#94a69a;
+  --saffron:#f2b23c; --chili:#ec6a50; --basil:#62b276; --plain:#8d9b91; --warn:#f0a65a; --warn-bg:#33261a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--head);color:var(--head-ink)}
+header.top .wrap{padding-block:28px 26px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.logo{width:54px;height:54px;flex:none}
+.brand h1{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,5vw,40px);line-height:1;margin:0;letter-spacing:-.02em;text-wrap:balance}
+.brand p{margin:6px 0 0;color:var(--head-muted);font-size:14px;max-width:60ch}
+.stamp{margin-left:auto;font-family:var(--f-mono);font-size:12px;color:var(--head-muted);text-align:right;line-height:1.6}
+.stamp b{color:var(--head-ink);font-weight:500}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar .wrap{padding-block:12px;display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1 1 150px}
+.field.grow{flex:2 1 220px}
+label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+select,input[type=search]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%;min-width:0}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+.days{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:inherit;font-size:13px;font-weight:500;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.chip.today{border-color:var(--saffron)}
+main .wrap{padding-block:22px 40px;display:flex;flex-direction:column;gap:22px}
+.week h2,.list-head h2{font-family:var(--f-display);font-weight:700;font-size:20px;margin:0}
+.week-sub{color:var(--muted);font-size:13px;margin:2px 0 12px}
+.plates{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.pday{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:6px 0;cursor:pointer;color:var(--ink);font:inherit;border-radius:12px}
+.pday:hover{background:var(--surface)}
+.pday[aria-pressed="true"]{background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.pday .dn{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pday.is-today .dn{color:var(--saffron)}
+.mini{width:min(64px,100%);aspect-ratio:1;max-width:100%;border-radius:50%;background:var(--plate);box-shadow:inset 0 0 0 5px var(--plate-rim);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:clamp(13px,2.4vw,19px)}
+.pday .ct{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.list-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.count{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start}
+.plate{width:78px;height:78px;border-radius:50%;background:var(--plate);box-shadow:inset 0 0 0 6px var(--plate-rim),0 1px 0 var(--line);display:grid;place-items:center;position:relative}
+.plate::after{content:"";position:absolute;inset:13px;border-radius:50%;border:1.5px dashed var(--plate-rim)}
+.plate span{font-family:var(--f-display);font-weight:800;font-size:24px;letter-spacing:-.03em;line-height:1;position:relative;z-index:1}
+.plate small{display:block;font-family:var(--f-body);font-size:10px;font-weight:700;letter-spacing:.08em;text-align:center;color:var(--muted);margin-top:2px}
+.t50{color:var(--chili)} .t40{color:var(--saffron)} .t30{color:var(--basil)} .tlo{color:var(--plain)}
+.body{min-width:0;display:flex;flex-direction:column;gap:6px}
+.name{font-family:var(--f-display);font-weight:700;font-size:18px;line-height:1.15;margin:0}
+.addr{color:var(--muted);font-size:13px}
+.dchips{display:flex;gap:4px;flex-wrap:wrap}
+.d{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.d.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.bank{font-size:14px}
+.bank b{font-weight:700}
+.bank span{color:var(--muted)}
+.meta{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta strong{color:var(--ink);font-weight:500}
+.cond{font-size:12px;color:var(--muted)}
+.badge{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--warn-bg);color:var(--warn)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.city{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+a.src{color:var(--muted);font-size:12px}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:28px;text-align:center;color:var(--muted)}
+.empty h3{font-family:var(--f-display);color:var(--ink);margin:0 0 6px;font-size:18px}
+.note{font-size:13px;color:var(--muted);border-left:3px solid var(--saffron);padding:4px 0 4px 12px}
+footer .wrap{padding-block:0 32px;color:var(--muted);font-size:12px}
+@media (max-width:560px){.stamp{margin-left:0;text-align:left}.plates{gap:4px}.pday .ct{display:none}.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .15s ease}.card:hover{transform:translateY(-2px)}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <svg class="logo" viewBox="0 0 54 54" aria-hidden="true">
+      <circle cx="27" cy="27" r="25" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".9"/>
+      <circle cx="27" cy="27" r="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" opacity=".6"/>
+      <text x="27" y="32.5" text-anchor="middle" font-family="Bricolage Grotesque, system-ui, sans-serif" font-weight="800" font-size="15" fill="currentColor">%</text>
+    </svg>
+    <div class="brand">
+      <h1>Mesa con Descuento</h1>
+      <p>Descuentos en restaurantes, cafés y bares con tarjetas bancarias, por región y ciudad.</p>
+    </div>
+    <div class="stamp" id="stamp">Cargando…</div>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="row">
+      <div class="field"><label for="f-region">Región</label><select id="f-region"></select></div>
+      <div class="field"><label for="f-city">Ciudad</label><select id="f-city"></select></div>
+      <div class="field"><label for="f-bank">Banco o tarjeta</label><select id="f-bank"></select></div>
+      <div class="field grow"><label for="f-q">Buscar</label><input id="f-q" type="search" placeholder="Restaurante, comida o dirección"></div>
+    </div>
+    <div class="days" id="f-days" role="group" aria-label="Día"></div>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <section class="week" aria-labelledby="w-title">
+      <h2 id="w-title">Tu semana en la mesa</h2>
+      <p class="week-sub" id="w-sub">El mejor descuento de cada día. Toca un día para ver sus opciones.</p>
+      <div class="plates" id="plates"></div>
+    </section>
+    <section>
+      <div class="list-head"><h2 id="l-title">Descuentos</h2><span class="count" id="count"></span></div>
+      <div id="note"></div>
+      <div class="grid" id="grid" style="margin-top:12px"></div>
+      <button id="more" class="chip" type="button" hidden style="margin-top:14px">Mostrar más</button>
+    </section>
+  </div>
+</main>
+
+<footer><div class="wrap" id="foot">Los beneficios pueden cambiar. Pide el descuento antes de pagar y confirma en la app de tu banco.</div></footer>
+
+<script>
+const DAYS=[["lun","Lun","Lunes"],["mar","Mar","Martes"],["mie","Mié","Miércoles"],["jue","Jue","Jueves"],["vie","Vie","Viernes"],["sab","Sáb","Sábado"],["dom","Dom","Domingo"]];
+const TODAY=["dom","lun","mar","mie","jue","vie","sab"][new Date().getDay()];
+const $=id=>document.getElementById(id);
+let cities=[], meta=null, loaded=false, limit=60;
+const st={region:"",city:"",bank:"",q:"",day:TODAY};
+try{Object.assign(st,JSON.parse(localStorage.getItem("mesa-f")||"{}"))}catch(e){}
+function save(){try{localStorage.setItem("mesa-f",JSON.stringify(st))}catch(e){}}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm=s=>String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+const tier=p=>p>=50?"t50":p>=40?"t40":p>=30?"t30":"tlo";
+const fmtDate=iso=>{if(!iso)return"";const [y,m,d]=iso.split("-").map(Number);return new Date(y,m-1,d).toLocaleDateString("es-CL",{day:"numeric",month:"short",year:y!==new Date().getFullYear()?"numeric":undefined})};
+const today0=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+const expired=iso=>{if(!iso)return false;const [y,m,d]=iso.split("-").map(Number);return new Date(y,m-1,d)<today0()};
+const soon=iso=>{if(!iso)return false;const [y,m,d]=iso.split("-").map(Number);const diff=(new Date(y,m-1,d)-today0())/864e5;return diff>=0&&diff<=7};
+
+function all(){return cities.flatMap(c=>(c.items||[]).map(i=>({...i,ciudad:c.ciudad,region:c.region}))).filter(i=>!expired(i.vence))}
+function opts(sel,values,cur,allLabel){sel.innerHTML=`<option value="">${allLabel}</option>`+values.map(v=>`<option${v===cur?" selected":""}>${esc(v)}</option>`).join("");if(!values.includes(cur))sel.value=""}
+function buildFilters(){
+  const items=all();
+  const ORD=["Arica y Parinacota","Tarapacá","Antofagasta","Atacama","Coquimbo","Valparaíso","Metropolitana","O'Higgins","Maule","Ñuble","Biobío","La Araucanía","Los Ríos","Los Lagos","Aysén","Magallanes"];
+  const regions=[...new Set(cities.map(c=>c.region))].sort((a,b)=>((ORD.indexOf(a)+1)||99)-((ORD.indexOf(b)+1)||99));
+  if(st.region&&!regions.includes(st.region))st.region="";
+  opts($("f-region"),regions,st.region,"Todas las regiones");
+  const cs=[...new Set(cities.filter(c=>!st.region||c.region===st.region).map(c=>c.ciudad))].sort((a,b)=>a.localeCompare(b,"es"));
+  if(st.city&&!cs.includes(st.city))st.city="";
+  opts($("f-city"),cs,st.city,"Todas las ciudades");
+  const banks=[...new Set(items.map(i=>i.banco))].sort((a,b)=>a.localeCompare(b,"es"));
+  if(st.bank&&!banks.includes(st.bank))st.bank="";
+  opts($("f-bank"),banks,st.bank,"Todos");
+  $("f-q").value=st.q;
+  $("f-days").innerHTML=[["","Toda la semana"],...DAYS.map(d=>[d[0],d[2]])].map(([k,l])=>`<button class="chip${k===TODAY?" today":""}" data-day="${k}" aria-pressed="${st.day===k}">${k===TODAY?"Hoy · ":""}${l}</button>`).join("");
+}
+function base(){
+  const q=norm(st.q);
+  return all().filter(i=>(!st.region||i.region===st.region)&&(!st.city||i.ciudad===st.city)&&(!st.bank||i.banco===st.bank)&&
+    (!q||norm([i.restaurante,i.categoria,i.direccion,i.ciudad,i.banco,i.tarjetas].join(" ")).includes(q)));
+}
+function render(){
+  const b=base();
+  $("plates").innerHTML=DAYS.map(([k,s])=>{const its=b.filter(i=>i.dias.includes(k));const top=its.reduce((m,i)=>Math.max(m,i.dcto),0);
+    return `<button class="pday${k===TODAY?" is-today":""}" data-day="${k}" aria-pressed="${st.day===k}" aria-label="${s}: ${top?("hasta "+top+"%"):"sin descuentos"}, ${its.length} opciones">
+      <span class="dn">${k===TODAY?"Hoy":s}</span><span class="mini ${top?tier(top):""}">${top?top+"%":"—"}</span><span class="ct">${its.length} ${its.length===1?"opción":"opciones"}</span></button>`}).join("");
+  const list=b.filter(i=>!st.day||i.dias.includes(st.day)).sort((x,y)=>y.dcto-x.dcto||x.restaurante.localeCompare(y.restaurante,"es"));
+  const dl=st.day?DAYS.find(d=>d[0]===st.day)[2]:"";
+  const place=st.city||st.region||"todas las ciudades";
+  $("l-title").textContent=st.day?(st.day===TODAY?`Hoy ${dl.toLowerCase()} en ${place}`:`${dl} en ${place}`):`Toda la semana en ${place}`;
+  $("count").textContent=loaded?`${list.length} ${list.length===1?"descuento":"descuentos"}`:"";
+  const showCity=!st.city;
+  const notes=[];
+  if(meta?.nota)notes.push(meta.nota);
+  $("note").innerHTML=notes.map(n=>`<p class="note">${esc(n)}</p>`).join("");
+  if(!loaded){return}
+  if(!list.length){$("grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><h3>Sin descuentos con estos filtros</h3><p>Prueba otro día, otra ciudad o "Todos" en banco.</p></div>`;return}
+  const shown=list.slice(0,limit);
+  $("more").hidden=list.length<=limit;$("more").textContent=`Mostrar más (${list.length-limit} restantes)`;
+  $("grid").innerHTML=shown.map(i=>`<article class="card">
+    <div class="plate ${tier(i.dcto)}" aria-label="${i.dcto}% de descuento"><span>${i.dcto}%<small>DCTO</small></span></div>
+    <div class="body">
+      ${showCity?`<span class="city">${esc(i.ciudad)} · ${esc(i.region)}</span>`:""}
+      <h3 class="name">${esc(i.restaurante)}</h3>
+      <div class="addr">${esc(i.categoria)}${i.direccion&&i.direccion!==i.ciudad?" · "+esc(i.direccion):""}</div>
+      <div class="dchips">${DAYS.map(([k,s])=>`<span class="d${i.dias.includes(k)?" on":""}">${s}</span>`).join("")}</div>
+      <div class="bank"><b>${esc(i.banco)}</b><br><span>${esc(i.tarjetas)}</span></div>
+      <div class="meta"><span>Tope <strong>${esc(i.tope||"—")}</strong></span>${i.vence?`<span>Hasta <strong>${fmtDate(i.vence)}</strong></span>`:""}</div>
+      ${i.condiciones?`<div class="cond">${esc(i.condiciones)}</div>`:""}
+      <div class="tags">${i.verificado===false?`<span class="badge">Por confirmar</span>`:""}${soon(i.vence)?`<span class="badge">Vence pronto</span>`:""}${i.fuente?`<a class="src" href="${esc(i.fuente)}" target="_blank" rel="noopener">Ver en el sitio</a>`:""}</div>
+    </div></article>`).join("");
+}
+function renderStamp(){
+  if(!meta){return}
+  $("stamp").innerHTML=`Actualizado <b>${fmtDate(meta.actualizado)}</b><br>Próxima revisión <b>${fmtDate(meta.proxima)}</b><br>${esc(meta.calendario||"")}`;
+  if(meta.bancos)$("foot").textContent=`Bancos revisados: ${meta.bancos.join(", ")}. Los beneficios pueden cambiar; pide el descuento antes de pagar y confírmalo en la app de tu banco.`;
+}
+document.addEventListener("change",e=>{
+  if(e.target.id==="f-region"){st.region=e.target.value;st.city="";buildFilters()}
+  if(e.target.id==="f-city"){st.city=e.target.value}
+  if(e.target.id==="f-bank"){st.bank=e.target.value}
+  limit=60;save();render();
+});
+$("f-q").addEventListener("input",e=>{st.q=e.target.value;limit=60;save();render()});
+$("more").addEventListener("click",()=>{limit+=60;render()});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-day]");if(!b)return;const k=b.dataset.day;st.day=(b.classList.contains("pday")&&st.day===k)?"":k;save();
+  document.querySelectorAll("#f-days .chip").forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.day===st.day)));render()});
+
+buildFilters();render();
+$("grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><h3>Cargando descuentos…</h3><p>Trayendo los beneficios de todo Chile.</p></div>`;
+
+(async()=>{
+  const timer=setTimeout(()=>{if(!loaded)$("grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><h3>No se pudieron cargar los descuentos todavía</h3><p>Revisa tu conexión y vuelve a abrir la página.</p></div>`},10000);
+  try{
+    const r=await fetch("datos.json?v="+Date.now(),{cache:"no-store"});
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();clearTimeout(timer);loaded=true;
+    cities=d.ciudades||[];meta=d.meta||null;
+    if(!cities.length){$("grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><h3>Aún no hay descuentos cargados</h3><p>Se agregarán en la próxima actualización.</p></div>`}
+    buildFilters();renderStamp();render();
+  }catch(e){clearTimeout(timer);$("grid").innerHTML=`<div class="empty" style="grid-column:1/-1"><h3>No se pudieron cargar los descuentos</h3><p>Vuelve a abrir la página en unos minutos.</p></div>`}
+})();
+</script>
+</body>
+</html>
