@@ -103,19 +103,30 @@ async def run(only=None):
             t0 = time.time()
             ctx = await b.new_context(user_agent=UA, locale="es-CL", timezone_id="America/Santiago", viewport={"width": 1280, "height": 900})
             page = await ctx.new_page()
-            try:
-                resp = None
-                for intento in range(2):
-                    resp = await page.goto(url, wait_until="domcontentloaded", timeout=90000)
-                    await page.wait_for_timeout(8000 if intento == 0 else 20000)
-                    if resp and resp.status < 400 and "Un momento" not in (await page.title()): break
-                data = await asyncio.wait_for(page.evaluate(js), timeout=600)
-                if k == "ita": data = await asyncio.wait_for(detalles_itau(page, data), timeout=900)
-                n = len(data["lines"] if isinstance(data, dict) and "lines" in data else data["sitios"] if isinstance(data, dict) and "sitios" in data else data["cards"] if isinstance(data, dict) and "cards" in data else data)
-                json.dump(data, open(os.path.join(OUT, f"{k}.json"), "w"), ensure_ascii=False)
-                rep[k] = {"ok": True, "n": n, "status": resp.status if resp else None, "s": round(time.time() - t0)}
-            except Exception as e:
-                rep[k] = {"ok": False, "error": repr(e)[:300], "title": await page.title() if not page.is_closed() else "", "s": round(time.time() - t0)}
+            ultimo = None
+            for vuelta in range(2):
+                try:
+                    resp = None
+                    for intento in range(2):
+                        resp = await page.goto(url, wait_until="domcontentloaded", timeout=90000)
+                        await page.wait_for_timeout(8000 if intento == 0 else 20000)
+                        titulo = ""
+                        try: titulo = await page.title()
+                        except Exception: pass
+                        if resp and resp.status < 400 and "Un momento" not in titulo: break
+                    data = await asyncio.wait_for(page.evaluate(js), timeout=600)
+                    if k == "ita": data = await asyncio.wait_for(detalles_itau(page, data), timeout=900)
+                    n = len(data["lines"] if isinstance(data, dict) and "lines" in data else data["sitios"] if isinstance(data, dict) and "sitios" in data else data["cards"] if isinstance(data, dict) and "cards" in data else data)
+                    json.dump(data, open(os.path.join(OUT, f"{k}.json"), "w"), ensure_ascii=False)
+                    rep[k] = {"ok": True, "n": n, "status": resp.status if resp else None, "s": round(time.time() - t0), "vuelta": vuelta}
+                    break
+                except Exception as e:
+                    ultimo = e
+                    rep[k] = {"ok": False, "error": repr(e)[:300], "s": round(time.time() - t0)}
+                    try:
+                        await page.close()
+                    except Exception: pass
+                    page = await ctx.new_page()
             await ctx.close()
             print(k, rep[k], flush=True)
         await b.close()

@@ -27,7 +27,7 @@ jobs:
 
       - name: Revisar los sitios de los bancos
         run: |
-          mkdir -p scraper/crudo
+          rm -rf scraper/crudo && mkdir -p scraper/crudo
           python3 scraper/extraer.py 2>&1 | tee scraper/crudo/_log.txt
         continue-on-error: true
 
