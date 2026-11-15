@@ -4,6 +4,8 @@ on:
   schedule:
     # Días 2 y 15 de cada mes, 11:43 UTC (08:43 en Chile en horario de verano)
     - cron: "43 11 2,15 * *"
+    # Reintento al día siguiente, solo si algún banco falló (ver paso "Decidir")
+    - cron: "17 14 3,16 * *"
   workflow_dispatch:
   push:
     branches: [prueba]
@@ -22,19 +24,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Decidir si corre
+        id: decidir
+        run: |
+          d=$(TZ=America/Santiago date +%d)
+          if [ "${{ github.event_name }}" = "schedule" ] && { [ "$d" = "03" ] || [ "$d" = "16" ]; }; then
+            if grep -q "falló" scraper/reporte.json 2>/dev/null; then echo "seguir=1" >> "$GITHUB_OUTPUT"; else echo "seguir=0" >> "$GITHUB_OUTPUT"; fi
+          else echo "seguir=1" >> "$GITHUB_OUTPUT"; fi
+
       - name: Instalar Playwright (usa el Chrome que ya trae el runner)
+        if: steps.decidir.outputs.seguir == '1'
         run: for i in 1 2 3; do pip install -q playwright==1.47.0 beautifulsoup4 && break; sleep 20; done
 
       - name: Revisar los sitios de los bancos
+        if: steps.decidir.outputs.seguir == '1'
         run: |
           rm -rf scraper/crudo && mkdir -p scraper/crudo
           python3 scraper/extraer.py 2>&1 | tee scraper/crudo/_log.txt
         continue-on-error: true
 
       - name: Construir datos.json
+        if: steps.decidir.outputs.seguir == '1'
         run: python3 scraper/construir.py
 
       - name: Guardar cambios
+        if: steps.decidir.outputs.seguir == '1'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
