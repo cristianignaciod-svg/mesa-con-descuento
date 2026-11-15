@@ -1,11 +1,11 @@
 {
  "Banco de Chile": {
-  "antes": 455,
+  "antes": 413,
   "ahora": 456,
   "estado": "actualizado"
  },
  "BCI": {
-  "antes": 221,
+  "antes": 219,
   "ahora": 224,
   "estado": "actualizado"
  },
@@ -20,8 +20,8 @@
   "estado": "actualizado"
  },
  "Banco Falabella": {
-  "antes": 66,
-  "ahora": 52,
+  "antes": 52,
+  "ahora": 67,
   "estado": "actualizado"
  },
  "Security": {
@@ -35,12 +35,12 @@
   "estado": "actualizado"
  },
  "Itaú": {
-  "antes": 36,
+  "antes": 33,
   "ahora": 33,
   "estado": "actualizado"
  },
  "BICE": {
-  "antes": 109,
+  "antes": 105,
   "ahora": 108,
   "estado": "actualizado"
  },
@@ -50,7 +50,7 @@
   "estado": "actualizado"
  },
  "_total": {
-  "descuentos": 1411,
+  "descuentos": 1426,
   "ciudades": 85
  }
 }
