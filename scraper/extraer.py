@@ -58,9 +58,26 @@ for(let i=0;i<20&&document.querySelectorAll('minibox-beneficios').length<10;i++)
 return [...document.querySelectorAll('minibox-beneficios')].map(m=>({t:m.innerText.replace(/\s+/g,' ').trim(),id:(m.querySelector('a.linkDetalle')||{}).id||''}));}""")
 
 JS["ita"] = ("https://itaubeneficios.cl/beneficios/beneficios-y-descuentos/ruta-gourmet/", r"""async()=>{
-const its=[...document.querySelectorAll('.beneficio__item')].filter(a=>a.href).map(a=>({h:a.href,t:a.innerText.replace(/\s*\n\s*/g,'|')}));
-const work=async it=>{for(let k=0;k<5;k++){try{const s=await fetch(it.h,{credentials:'include'}).then(r=>r.text());const d=new DOMParser().parseFromString(s,'text/html');d.querySelectorAll('script,style,nav,header,footer').forEach(e=>e.remove());const m=d.querySelector('main')||d.body;it.d=m.textContent.replace(/\s*\n\s*/g,'|').replace(/[ \t]+/g,' ').slice(0,2500);if(!/Enable JavaScript and cookies/.test(it.d))return}catch(e){it.d='ERR'}await new Promise(r=>setTimeout(r,3000*(k+1)))}};
-for(const it of its){await work(it);await new Promise(r=>setTimeout(r,700))}return its;}""")
+return [...document.querySelectorAll('.beneficio__item')].filter(a=>a.href).map(a=>({h:a.href,t:a.innerText.replace(/\s*\n\s*/g,'|')}));}""")
+
+DETALLE_ITA = r"""()=>{const m=(document.querySelector('main')||document.body).cloneNode(true);m.querySelectorAll('script,style,nav,header,footer').forEach(e=>e.remove());return m.textContent.replace(/\s*\n\s*/g,'|').replace(/[ \t]+/g,' ').slice(0,2500)}"""
+
+async def detalles_itau(page, its):
+    """Itaú bloquea los pedidos en ráfaga: abre cada ficha como una visita normal."""
+    for it in its:
+        for intento in range(3):
+            try:
+                await page.goto(it["h"], wait_until="domcontentloaded", timeout=45000)
+                await page.wait_for_timeout(1200)
+                for _ in range(10):
+                    if "momento" not in (await page.title()).lower() and "just a moment" not in (await page.title()).lower(): break
+                    await page.wait_for_timeout(1500)
+                it["d"] = await page.evaluate(DETALLE_ITA)
+                if "Enable JavaScript and cookies" not in it["d"]: break
+            except Exception as ex:
+                it["d"] = "ERR " + repr(ex)[:100]
+            await page.wait_for_timeout(3000 * (intento + 1))
+    return its
 
 JS["bice"] = ("https://banco.bice.cl/personas/beneficios", r"""async()=>{
 let all=[];for(let p=1;p<=10;p++){const r=await fetch(`/api/content/spaces/beneficios-bice/types/beneficios/entries?page=${p}&per_page=100`);const t=await r.text();if(t.trim().startsWith('<'))break;const j=JSON.parse(t);if(!j.entries.length)break;all.push(...j.entries)}
@@ -93,6 +110,7 @@ async def run(only=None):
                     await page.wait_for_timeout(8000 if intento == 0 else 20000)
                     if resp and resp.status < 400 and "Un momento" not in (await page.title()): break
                 data = await asyncio.wait_for(page.evaluate(js), timeout=600)
+                if k == "ita": data = await asyncio.wait_for(detalles_itau(page, data), timeout=900)
                 n = len(data["lines"] if isinstance(data, dict) and "lines" in data else data["sitios"] if isinstance(data, dict) and "sitios" in data else data["cards"] if isinstance(data, dict) and "cards" in data else data)
                 json.dump(data, open(os.path.join(OUT, f"{k}.json"), "w"), ensure_ascii=False)
                 rep[k] = {"ok": True, "n": n, "status": resp.status if resp else None, "s": round(time.time() - t0)}
