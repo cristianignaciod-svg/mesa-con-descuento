@@ -41,7 +41,7 @@
  },
  "BICE": {
   "antes": 109,
-  "ahora": 105,
+  "ahora": 108,
   "estado": "actualizado"
  },
  "BancoEstado": {
@@ -50,7 +50,7 @@
   "estado": "actualizado"
  },
  "_total": {
-  "descuentos": 1408,
+  "descuentos": 1411,
   "ciudades": 85
  }
 }

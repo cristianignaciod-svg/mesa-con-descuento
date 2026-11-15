@@ -44,8 +44,8 @@ JS["fal"] = ("https://www.bancofalabella.cl/descuentos/restaurantes", r"""async(
 const h=document.documentElement.innerHTML.replace(/\\"/g,'"');const re=/\{"benefitCard":\{[\s\S]*?"benefitTitle":"[^"]*"[^\]]*?\]\}/g;const m=h.match(re)||[];
 const seen={};const items=[];for(const s of m){let o;try{o=JSON.parse(s)}catch(e){continue}const c=o.benefitCard||{};const k=c.linkUrl;if(!k||seen[k])continue;seen[k]=1;items.push({t:o.benefitTitle,desc:c.description,url:k,days:Array.isArray(c.discountDays)?c.discountDays:[],pct:(c.topDiscountText||'')+' '+(c.centerDiscountText||'')+' '+(c.bottomDiscountText||''),end:c.endDate||o.limitDate,reg:o.region,cards:o.creditCards})}
 const strip=x=>x.replace(/<script[\s\S]*?<\/script>/g,' ').replace(/<style[\s\S]*?<\/style>/g,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ');
-const work=async it=>{try{const x=strip(await fetch(it.url).then(r=>r.text()));const i=x.indexOf('Disfruta de tu beneficio');it.det=i>=0?x.slice(i,i+1100):'';if(/Este beneficio ya no est/.test(x))it.expired=1}catch(e){it.det='ERR'}};
-for(let i=0;i<items.length;i+=6){await Promise.all(items.slice(i,i+6).map(work))}
+const work=async it=>{for(let k=0;k<4;k++){try{const x=strip(await fetch(it.url).then(r=>r.text()));const i=x.indexOf('Disfruta de tu beneficio');it.det=i>=0?x.slice(i,i+1100):'';if(/Este beneficio ya no est/.test(x))it.expired=1;if(it.det||it.expired)return}catch(e){it.det=''}await new Promise(r=>setTimeout(r,1500*(k+1)))}};
+for(let i=0;i<items.length;i+=3){await Promise.all(items.slice(i,i+3).map(work));await new Promise(r=>setTimeout(r,300))}
 return items;}""")
 
 JS["sec"] = ("https://personas.bancosecurity.cl/beneficios/gourmet", r"""async()=>{
@@ -59,8 +59,8 @@ return [...document.querySelectorAll('minibox-beneficios')].map(m=>({t:m.innerTe
 
 JS["ita"] = ("https://itaubeneficios.cl/beneficios/beneficios-y-descuentos/ruta-gourmet/", r"""async()=>{
 const its=[...document.querySelectorAll('.beneficio__item')].filter(a=>a.href).map(a=>({h:a.href,t:a.innerText.replace(/\s*\n\s*/g,'|')}));
-const work=async it=>{try{const s=await fetch(it.h).then(r=>r.text());const d=new DOMParser().parseFromString(s,'text/html');d.querySelectorAll('script,style,nav,header,footer').forEach(e=>e.remove());const m=d.querySelector('main')||d.body;it.d=m.textContent.replace(/\s*\n\s*/g,'|').replace(/[ \t]+/g,' ').slice(0,2500)}catch(e){it.d='ERR'}};
-for(let i=0;i<its.length;i+=6)await Promise.all(its.slice(i,i+6).map(work));return its;}""")
+const work=async it=>{for(let k=0;k<5;k++){try{const s=await fetch(it.h,{credentials:'include'}).then(r=>r.text());const d=new DOMParser().parseFromString(s,'text/html');d.querySelectorAll('script,style,nav,header,footer').forEach(e=>e.remove());const m=d.querySelector('main')||d.body;it.d=m.textContent.replace(/\s*\n\s*/g,'|').replace(/[ \t]+/g,' ').slice(0,2500);if(!/Enable JavaScript and cookies/.test(it.d))return}catch(e){it.d='ERR'}await new Promise(r=>setTimeout(r,3000*(k+1)))}};
+for(const it of its){await work(it);await new Promise(r=>setTimeout(r,700))}return its;}""")
 
 JS["bice"] = ("https://banco.bice.cl/personas/beneficios", r"""async()=>{
 let all=[];for(let p=1;p<=10;p++){const r=await fetch(`/api/content/spaces/beneficios-bice/types/beneficios/entries?page=${p}&per_page=100`);const t=await r.text();if(t.trim().startsWith('<'))break;const j=JSON.parse(t);if(!j.entries.length)break;all.push(...j.entries)}

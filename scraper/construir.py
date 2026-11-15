@@ -250,9 +250,11 @@ def bice():
         tm = re.search(r'[Tt]ope de descuento de \$\s?([\d.]+)', e.get('cond', ''))
         tope = ("$" + tm.group(1).rstrip('.') + (" (1 compra al día)" if 'diaria' in e.get('cond', '') else "")) if tm else "—"
         coms = []
-        for c in re.split(r'[,;.]|\s+y\s+', e.get('ciu', '')):
-            cm = cm_exact(c)
-            if cm and cm not in coms: coms.append(cm)
+        ciu = ' ' + nz(e.get('ciu', '')) + ' '
+        for k in comun.KEYS:
+            if (' ' + k + ' ') in ciu:
+                cm = CMAP[k]; ciu = ciu.replace(' ' + k + ' ', ' | ')
+                if cm not in coms: coms.append(cm)
         if not coms:
             cm = comuna_of(e.get('dir', ''))
             if cm: coms = [cm]
@@ -277,25 +279,27 @@ def bancoestado():
     URL = "https://www.bancoestado.cl/content/bancoestado-public/cl/es/home/home/todosuma---bancoestado-personas/un-mes-de-sabores---bancoestado-personas.html"
     d = raw('be') or {}
     ms = d.get('ms', []); used = set()
-    def find(name):
-        n = nz(name)
-        for i, m in enumerate(ms):
-            if i not in used and nz(m['n']) == n: return i
-        for i, m in enumerate(ms):
-            mn = nz(m['n'])
-            if i not in used and (mn.startswith(n) or n.startswith(mn)): return i
-        for i, m in enumerate(ms):
-            if i not in used and nz(m['n']).split()[:1] == n.split()[:1] and n: return i
-        return None
+    cards = []
     for c in d.get('cards', []):
         f = [x.strip() for x in c.split('|') if x.strip()]
         pi = next((i for i, x in enumerate(f) if re.match(r'^\d+% dto', x)), None)
         if pi is None or pi < 2 or pi + 1 >= len(f): continue
-        reg, days, pct, name = f[pi - 2], f[pi - 1], int(f[pi].split('%')[0]), f[pi + 1]
-        if re.search(r'online', days, re.I) or EXCLUDE.search(name): continue
-        mi = find(name)
-        if mi is None: continue
-        used.add(mi); m = ms[mi]
+        cards.append([f[pi - 2], f[pi - 1], int(f[pi].split('%')[0]), f[pi + 1], None])
+    STOP = {'la', 'el', 'los', 'las', 'bar', 'restaurant', 'restaurante', 'cafe', 'sushi'}
+    for paso in range(3):
+        for cd in cards:
+            if cd[4] is not None: continue
+            n = nz(cd[3])
+            for i, m in enumerate(ms):
+                if i in used: continue
+                mn = nz(m['n'])
+                if paso == 0: ok = mn == n
+                elif paso == 1: ok = bool(mn and n) and (mn.startswith(n) or n.startswith(mn))
+                else: ok = bool(n.split() and mn.split()) and n.split()[0] == mn.split()[0] and n.split()[0] not in STOP and len(n.split()[0]) > 3
+                if ok: cd[4] = i; used.add(i); break
+    for reg, days, pct, name, mi in cards:
+        if re.search(r'online', days, re.I) or EXCLUDE.search(name) or mi is None: continue
+        m = ms[mi]
         ps = ' / '.join(m['ps'])
         dias = be_days(days)
         if not dias: continue
