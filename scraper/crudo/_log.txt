@@ -1,33 +1,13 @@
-bch {'ok': True, 'n': 355, 'status': 200, 's': 15}
-san {'ok': True, 'n': 97, 'status': 200, 's': 10}
-sco {'ok': True, 'n': 143, 'status': 200, 's': 11}
-Traceback (most recent call last):
-  File "/home/runner/work/mesa-con-descuento/mesa-con-descuento/scraper/extraer.py", line 125, in <module>
-    asyncio.run(run(sys.argv[1:] or None))
-  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
-    return runner.run(main)
-           ^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
-    return future.result()
-           ^^^^^^^^^^^^^^^
-  File "/home/runner/work/mesa-con-descuento/mesa-con-descuento/scraper/extraer.py", line 118, in run
-    rep[k] = {"ok": False, "error": repr(e)[:300], "title": await page.title() if not page.is_closed() else "", "s": round(time.time() - t0)}
-                                                            ^^^^^^^^^^^^^^^^^^
-  File "/home/runner/.local/lib/python3.12/site-packages/playwright/async_api/_generated.py", line 9515, in title
-    return mapping.from_maybe_impl(await self._impl_obj.title())
-                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/.local/lib/python3.12/site-packages/playwright/_impl/_page.py", line 747, in title
-    return await self._main_frame.title()
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/.local/lib/python3.12/site-packages/playwright/_impl/_frame.py", line 774, in title
-    return await self._channel.send("title")
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/.local/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 59, in send
-    return await self._connection.wrap_api_call(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/.local/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
-    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
-playwright._impl._errors.Error: Page.title: Execution context was destroyed, most likely because of a navigation
+bch {'ok': True, 'n': 355, 'status': 200, 's': 13, 'vuelta': 0}
+san {'ok': True, 'n': 97, 'status': 200, 's': 9, 'vuelta': 0}
+sco {'ok': True, 'n': 143, 'status': 200, 's': 10, 'vuelta': 0}
+fal {'ok': True, 'n': 90, 'status': 200, 's': 27, 'vuelta': 0}
+sec {'ok': True, 'n': 96, 'status': 200, 's': 18, 'vuelta': 0}
+rip {'ok': True, 'n': 70, 'status': 200, 's': 9, 'vuelta': 0}
+ita {'ok': True, 'n': 0, 'status': 403, 's': 939, 'vuelta': 1}
+Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
+bice {'ok': True, 'n': 0, 'status': 200, 's': 29, 'vuelta': 0}
+be {'ok': True, 'n': 113, 'status': 200, 's': 10, 'vuelta': 0}
+bci {'ok': True, 'n': 170, 'status': 200, 's': 9, 'vuelta': 0}

@@ -36,13 +36,15 @@
  },
  "Itaú": {
   "antes": 33,
-  "ahora": 33,
-  "estado": "actualizado"
+  "nuevos": 0,
+  "conservados": 33,
+  "estado": "sin cambios (falló la revisión)"
  },
  "BICE": {
   "antes": 108,
-  "ahora": 108,
-  "estado": "actualizado"
+  "nuevos": 0,
+  "conservados": 108,
+  "estado": "sin cambios (falló la revisión)"
  },
  "BancoEstado": {
   "antes": 68,

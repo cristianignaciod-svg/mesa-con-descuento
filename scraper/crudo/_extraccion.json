@@ -3,60 +3,70 @@
   "ok": true,
   "n": 355,
   "status": 200,
-  "s": 13
+  "s": 13,
+  "vuelta": 0
  },
  "san": {
   "ok": true,
   "n": 97,
   "status": 200,
-  "s": 18
+  "s": 9,
+  "vuelta": 0
  },
  "sco": {
   "ok": true,
   "n": 143,
   "status": 200,
-  "s": 11
+  "s": 10,
+  "vuelta": 0
  },
  "fal": {
   "ok": true,
   "n": 90,
   "status": 200,
-  "s": 59
+  "s": 27,
+  "vuelta": 0
  },
  "sec": {
   "ok": true,
   "n": 96,
   "status": 200,
-  "s": 17
+  "s": 18,
+  "vuelta": 0
  },
  "rip": {
   "ok": true,
   "n": 70,
   "status": 200,
-  "s": 9
+  "s": 9,
+  "vuelta": 0
  },
  "ita": {
-  "ok": false,
-  "error": "TimeoutError()",
-  "title": "Ruta gourmet",
-  "s": 612
+  "ok": true,
+  "n": 0,
+  "status": 403,
+  "s": 939,
+  "vuelta": 1
  },
  "bice": {
   "ok": true,
-  "n": 81,
+  "n": 0,
   "status": 200,
-  "s": 31
+  "s": 29,
+  "vuelta": 0
  },
  "be": {
   "ok": true,
   "n": 113,
   "status": 200,
-  "s": 11
+  "s": 10,
+  "vuelta": 0
  },
  "bci": {
   "ok": true,
   "n": 170,
   "status": 200,
-  "s": 9
+  "s": 9,
+  "vuelta": 0
  }
 }
