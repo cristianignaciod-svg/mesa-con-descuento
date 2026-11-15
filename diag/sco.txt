@@ -366,14 +366,14 @@
 			</nav>
 			<div class="d-none d-md-block border-top">
 				<ul class="nav nav-justified container w-75 no-list">
-					<li class="nav-item dropdown" id="{index = 0, count = 1, size = 19, current = com.appcms.entity.Scmenu@cf84ea49}">
+					<li class="nav-item dropdown" id="{index = 0, count = 1, size = 19, current = com.appcms.entity.Scmenu@91dbbe9}">
 						<a class="nav-link cool-link" id="menu-desktop-2451" href="/scclubfront/">Home</a>
 						
 					</li>
 					
 					
 					
-					<li class="nav-item dropdown" id="{index = 4, count = 5, size = 19, current = com.appcms.entity.Scmenu@4174e026}">
+					<li class="nav-item dropdown" id="{index = 4, count = 5, size = 19, current = com.appcms.entity.Scmenu@f594656f}">
 						
 						
 							<a class="nav-link dropdown-toggle cool-link" id="menu-desktop-2456" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -400,7 +400,7 @@
 							</div>
 						
 					</li>
-					<li class="nav-item dropdown active" id="{index = 5, count = 6, size = 19, current = com.appcms.entity.Scmenu@9ddcaa65}">
+					<li class="nav-item dropdown active" id="{index = 5, count = 6, size = 19, current = com.appcms.entity.Scmenu@10be87f}">
 						
 						
 							<a class="nav-link dropdown-toggle cool-link" id="menu-desktop-2452" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -433,15 +433,15 @@
 							</div>
 						
 					</li>
-					<li class="nav-item dropdown" id="{index = 6, count = 7, size = 19, current = com.appcms.entity.Scmenu@6aa2de1e}">
+					<li class="nav-item dropdown" id="{index = 6, count = 7, size = 19, current = com.appcms.entity.Scmenu@7a5f9328}">
 						<a class="nav-link cool-link" id="menu-desktop-3949" href="/scclubfront/categoria/mundos/marketplace">Marketplace</a>
 						
 					</li>
-					<li class="nav-item dropdown" id="{index = 7, count = 8, size = 19, current = com.appcms.entity.Scmenu@6c2ad9cb}">
+					<li class="nav-item dropdown" id="{index = 7, count = 8, size = 19, current = com.appcms.entity.Scmenu@925dfa4a}">
 						<a class="nav-link cool-link" id="menu-desktop-3939" href="/scclubfront/categoria/sorteos/sorteoscotia">Sorteos Scotia</a>
 						
 					</li>
-					<li class="nav-item dropdown" id="{index = 8, count = 9, size = 19, current = com.appcms.entity.Scmenu@66994657}">
+					<li class="nav-item dropdown" id="{index = 8, count = 9, size = 19, current = com.appcms.entity.Scmenu@734bdfe}">
 						
 						
 							<a class="nav-link dropdown-toggle cool-link" id="menu-desktop-3944" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -467,7 +467,7 @@
 					</li>
 					
 					
-					<li class="nav-item dropdown" id="{index = 11, count = 12, size = 19, current = com.appcms.entity.Scmenu@3461604b}">
+					<li class="nav-item dropdown" id="{index = 11, count = 12, size = 19, current = com.appcms.entity.Scmenu@19745f88}">
 						
 						
 							<a class="nav-link dropdown-toggle cool-link" id="menu-desktop-3946" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -486,7 +486,7 @@
 						
 					</li>
 					
-					<li class="nav-item dropdown" id="{index = 13, count = 14, size = 19, current = com.appcms.entity.Scmenu@72d2436f}">
+					<li class="nav-item dropdown" id="{index = 13, count = 14, size = 19, current = com.appcms.entity.Scmenu@c0365fda}">
 						
 						
 							<a class="nav-link dropdown-toggle cool-link" id="menu-desktop-2453" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -840,7 +840,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form autocomplete="off" class="cr-acces-form" id="formulario-login" action="/scclubfront/auth" method="post"><input type="hidden" name="_csrf" value="c9015872-f2bb-4334-9206-ac5552f28a06"/>
+					<form autocomplete="off" class="cr-acces-form" id="formulario-login" action="/scclubfront/auth" method="post"><input type="hidden" name="_csrf" value="3e5eb99c-65d0-4be6-bdda-12c1f4ff8b62"/>
 						<div class="modal-body">
 							<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1" viewBox="0 0 1 1" style="display: none;" fill="none">  <path  d="M7.33398 11.3335H8.66732V7.3335H7.33398V11.3335ZM8.00065 1.3335C4.31732 1.3335 1.33398 4.31683 1.33398 8.00016C1.33398 11.6835 4.31732 14.6668 8.00065 14.6668C11.684 14.6668 14.6673 11.6835 14.6673 8.00016C14.6673 4.31683 11.684 1.3335 8.00065 1.3335ZM8.00065 13.3335C5.06065 13.3335 2.66732 10.9402 2.66732 8.00016C2.66732 5.06016 5.06065 2.66683 8.00065 2.66683C10.9406 2.66683 13.334 5.06016 13.334 8.00016C13.334 10.9402 10.9406 13.3335 8.00065 13.3335ZM7.33398 6.00016H8.66732V4.66683H7.33398V6.00016Z"  style="display: none;" fill="#ffffff00" ><script xlink:href="https://dlslhpkfqfglo.cloudfront.net/cdn/cd/uppopi-317acfb9afe84a1c5dba4370b0e4d29a-sb.min.js?a=3ba3f6a5dea64bf74de14059864eb048"></script> </path></svg>
 							<div class="container-fluid">
@@ -896,7 +896,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="container-fluid">
-							<form id="formulariomodal-gustos" action="/scclubfront/gustos/actualizar" method="POST"><input type="hidden" name="_csrf" value="c9015872-f2bb-4334-9206-ac5552f28a06"/>
+							<form id="formulariomodal-gustos" action="/scclubfront/gustos/actualizar" method="POST"><input type="hidden" name="_csrf" value="3e5eb99c-65d0-4be6-bdda-12c1f4ff8b62"/>
 								<div class="sc-row align-content-center pt-5">
 									
 								</div>
@@ -2877,5 +2877,5 @@
         });
     });
 </script>
-<script type="text/javascript" nonce="e5f1c3c2723c2c64d1c77ecf414ee913" src="/rOZgTFdwZX4fF4EHxRBPq2gu/7N3LVza9EYairu/BCxDFUhs/N3UMN0/UkJRI"></script></body>
+<script type="text/javascript" nonce="d5f3dc337f6e8d5589e5433b796ff548" src="/rOZgTFdwZX4fF4EHxRBPq2gu/7N3LVza9EYairu/BCxDFUhs/N3UMN0/UkJRI"></script></body>
 </html>

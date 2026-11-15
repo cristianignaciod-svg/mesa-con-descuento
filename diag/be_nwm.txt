@@ -40,7 +40,7 @@
 				<div class="col-12">
 					<div id="mensaje">
                     	<img src="http://www.bancoestado.cl/imagenes/comun2015/404/img/x.gif" alt="La página que buscas no está disponible | Banco Estado" title="La página que buscas no está disponible | Banco Estado" />
-						<h3>La página que buscas no está disponible. 0.4c6ccd17.1794761875.85ce95a</h3><br/>
+						<h3>La página que buscas no está disponible. 0.ebd11102.1794761928.160d0fe5</h3><br/>
 						<div class="bajada center">
 							<p>Comprueba  la ruta ingresada, o vuelve a la página de <a href="http://www.bancoestado.cl/" target="_self">Inicio de BancoEstado</a>.</p>
 						</div>
