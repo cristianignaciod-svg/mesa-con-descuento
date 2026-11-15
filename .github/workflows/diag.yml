@@ -1,0 +1,21 @@
+name: Diagnóstico fuentes
+on:
+  push:
+    branches: [diag]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  diag:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scraper/diag.py
+      - name: Guardar resultados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -f diag
+          git commit -m "Diagnóstico $(date -u +%F_%H%M)" || exit 0
+          git push
