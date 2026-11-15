@@ -3,7 +3,7 @@
   "ok": true,
   "n": 355,
   "status": 200,
-  "s": 13,
+  "s": 18,
   "vuelta": 0
  },
  "san": {
@@ -24,40 +24,42 @@
   "ok": true,
   "n": 90,
   "status": 200,
-  "s": 97,
-  "vuelta": 1
+  "s": 198,
+  "vuelta": 0
  },
  "sec": {
   "ok": true,
   "n": 96,
   "status": 200,
-  "s": 19,
+  "s": 21,
   "vuelta": 0
  },
  "rip": {
   "ok": true,
   "n": 70,
   "status": 200,
-  "s": 9,
+  "s": 10,
   "vuelta": 0
  },
  "ita": {
-  "ok": false,
-  "error": "TimeoutError()",
-  "s": 2772
+  "ok": true,
+  "n": 60,
+  "status": 200,
+  "s": 470,
+  "vuelta": 0
  },
  "bice": {
   "ok": true,
   "n": 81,
   "status": 200,
-  "s": 35,
+  "s": 10,
   "vuelta": 0
  },
  "be": {
   "ok": true,
   "n": 113,
   "status": 200,
-  "s": 9,
+  "s": 10,
   "vuelta": 0
  },
  "bci": {

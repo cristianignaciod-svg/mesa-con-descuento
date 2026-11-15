@@ -21,7 +21,7 @@
  },
  "Banco Falabella": {
   "antes": 67,
-  "ahora": 67,
+  "ahora": 58,
   "estado": "actualizado"
  },
  "Security": {
@@ -36,9 +36,8 @@
  },
  "Itaú": {
   "antes": 33,
-  "nuevos": 0,
-  "conservados": 33,
-  "estado": "sin cambios (falló la revisión)"
+  "ahora": 33,
+  "estado": "actualizado"
  },
  "BICE": {
   "antes": 108,
@@ -51,7 +50,7 @@
   "estado": "actualizado"
  },
  "_total": {
-  "descuentos": 1426,
+  "descuentos": 1417,
   "ciudades": 85
  }
 }
