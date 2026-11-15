@@ -1,0 +1,68 @@
+{
+ "bch_p1": {
+  "error": "<HTTPError 403: 'Forbidden'>",
+  "s": 0.2
+ },
+ "san": {
+  "error": "<HTTPError 403: 'Forbidden'>",
+  "s": 0.2
+ },
+ "sco": {
+  "status": 200,
+  "len": 592150,
+  "ct": "text/html;charset=UTF-8",
+  "s": 1.4
+ },
+ "fal": {
+  "status": 200,
+  "len": 796087,
+  "ct": "text/html; charset=utf-8",
+  "s": 0.5
+ },
+ "sec": {
+  "status": 200,
+  "len": 299095,
+  "ct": "text/html; charset=UTF-8",
+  "s": 0.7
+ },
+ "rip": {
+  "status": 200,
+  "len": 79143,
+  "ct": "text/html; charset=utf-8",
+  "s": 0.5
+ },
+ "bci": {
+  "status": 200,
+  "len": 793566,
+  "ct": "text/html; charset=utf-8",
+  "s": 0.4
+ },
+ "ita": {
+  "status": 200,
+  "len": 250098,
+  "ct": "text/html; charset=UTF-8",
+  "s": 1.9
+ },
+ "ita_det": {
+  "status": 200,
+  "len": 54967,
+  "ct": "text/html; charset=UTF-8",
+  "s": 1.4
+ },
+ "bice": {
+  "error": "<HTTPError 403: 'Forbidden'>",
+  "s": 0.2
+ },
+ "be_nwm": {
+  "status": 200,
+  "len": 2487,
+  "ct": "text/html",
+  "s": 0.4
+ },
+ "be_www": {
+  "status": 200,
+  "len": 2487,
+  "ct": "text/html",
+  "s": 0.2
+ }
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="favicon.ico" rel='icon' type='image/x-icon'/>
+	<link href="favicon.ico" rel='shortcut icon' type='image/x-icon'/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<link rel="stylesheet" type="text/css" href="/imagenes/comun2015/404/style/css/reseter.css" />
+	<link rel="stylesheet" type="text/css" href="/imagenes/comun2015/404/style/css/base.css" />
+	<link rel="stylesheet" type="text/css" href="/imagenes/comun2015/404/style/css/responsive.css" />
+		<!-- Google Tag Manager Personas -->
+
+<noscript>
+<iframe src="//www.googletagmanager.com/ns.html?id=GTM-MQ3XRV" title="google tag manager" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MQ3XRV');</script> 
+<!-- End Google Tag Manager -->
+
+	<title>BancoEstado | Página no encontrada</title>
+</head>
+
+<body>
+	
+	<div class="inner-content-logo"><!--content-->
+		<div style="overflow:none;">
+			<div>
+				<a href="http://www.bancoestado.cl">
+					<img src="http://www.bancoestado.cl/imagenes/comun2015/404/img/logo-banco-estado.jpg" alt="BancoEstado" />
+				</a>	
+			</div>
+		</div>
+	</div>
+
+	<div id="contenedor"><!-- contenedor -->
+		
+		<div id="simulador">
+		
+			<div class="grid">
+				<div class="col-12">
+					<div id="mensaje">
+                    	<img src="http://www.bancoestado.cl/imagenes/comun2015/404/img/x.gif" alt="La página que buscas no está disponible | Banco Estado" title="La página que buscas no está disponible | Banco Estado" />
+						<h3>La página que buscas no está disponible. 0.4c6ccd17.1794761875.85ce95a</h3><br/>
+						<div class="bajada center">
+							<p>Comprueba  la ruta ingresada, o vuelve a la página de <a href="http://www.bancoestado.cl/" target="_self">Inicio de BancoEstado</a>.</p>
+						</div>
+                        <!-- <div class="bajada center" style="padding-top: 5px; border-top: 1px solid #AAAAAA; color: #FF8700; font-size:11px;"><p>[[variable_error]]</p></div> -->
+                        
+					</div>
+                    
+				</div>
+
+			</div>
+		</div>
+	</div><!-- Fin contenedor -->

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Internet Connection Error</title>
+        <link rel="stylesheet" href="https://banco.santander.cl/fueradelinea/assets/styles/fonts.css" />
+        <link rel="stylesheet" href="https://banco.santander.cl/fueradelinea/assets/styles/not-connection.css" />
+    </head>
+    <body>
+        <div class="card">
+            <!-- Logo Section -->
+            <div class="logo">
+                <img
+                    src="https://banco.santander.cl/fueradelinea/assets/img/logo-santander.png"
+                    alt="Office Banking"
+                />
+            </div>
+
+            <!-- Image Reference Section -->
+            <div class="img-reference">
+                <img
+                    src="https://banco.santander.cl/fueradelinea/assets/img/connection-error-person.png"
+                    alt="Connection Error"
+                />
+            </div>
+
+            <!-- Content Section -->
+            <div class="content">
+                <!-- Message Section -->
+                <div class="message">
+                    <h1>Revisa tu conexión a internet</h1>
+                    <p>
+                        La señal que estás usando no te permitirá ingresar a tu
+                        sitio privado o App Santander.<br />
+                        Para solucionarlo,
+                        <strong>reinicia tu wifi o utiliza otra conexión</strong>
+                        a internet y luego espera unos minutos.
+                    </p>
+                </div>
+
+                <!-- Help Card Section -->
+                <div class="help-card">
+                    <h2>¿El problema no se resuelve?</h2>
+                    <p class="help-text">
+                        Para ayudarte, toma una foto al siguiente código y
+                        llámanos:
+                    </p>
+                    <p class="code">
+                        <span>0.5b6ccd17.1794761867.11ecac31</span><br />
+                        <span>20.65.227.97</span>
+                    </p>
+                    <ul class="contact-list">
+                        <li>
+                            <img
+                                class="icon"
+                                src="https://banco.santander.cl/fueradelinea/assets/img/phone-icon.png"
+                                alt="Phone Icon"
+                            />
+                            <p>
+                                <strong>600 320 3000</strong> si es App
+                                Santander o Santander.cl
+                            </p>
+                        </li>
+                        <li>
+                            <img
+                                class="icon"
+                                src="https://banco.santander.cl/fueradelinea/assets/img/phone-icon.png"
+                                alt="Phone Icon"
+                            />
+                            <p>
+                                <strong>600 320 3003</strong> si es Officebanking.cl
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
