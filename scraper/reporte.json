@@ -1,0 +1,56 @@
+{
+ "Banco de Chile": {
+  "antes": 455,
+  "ahora": 456,
+  "estado": "actualizado"
+ },
+ "BCI": {
+  "antes": 221,
+  "ahora": 224,
+  "estado": "actualizado"
+ },
+ "Santander": {
+  "antes": 190,
+  "ahora": 190,
+  "estado": "actualizado"
+ },
+ "Scotiabank": {
+  "antes": 142,
+  "ahora": 142,
+  "estado": "actualizado"
+ },
+ "Banco Falabella": {
+  "antes": 66,
+  "ahora": 52,
+  "estado": "actualizado"
+ },
+ "Security": {
+  "antes": 71,
+  "ahora": 71,
+  "estado": "actualizado"
+ },
+ "Ripley": {
+  "antes": 93,
+  "ahora": 94,
+  "estado": "actualizado"
+ },
+ "Itaú": {
+  "antes": 36,
+  "ahora": 33,
+  "estado": "actualizado"
+ },
+ "BICE": {
+  "antes": 109,
+  "ahora": 105,
+  "estado": "actualizado"
+ },
+ "BancoEstado": {
+  "antes": 68,
+  "ahora": 68,
+  "estado": "actualizado"
+ },
+ "_total": {
+  "descuentos": 1408,
+  "ciudades": 85
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "bch": {
+  "ok": true,
+  "n": 355,
+  "status": 200,
+  "s": 17
+ },
+ "san": {
+  "ok": true,
+  "n": 97,
+  "status": 200,
+  "s": 10
+ },
+ "sco": {
+  "ok": true,
+  "n": 143,
+  "status": 200,
+  "s": 10
+ },
+ "fal": {
+  "ok": true,
+  "n": 90,
+  "status": 200,
+  "s": 73
+ },
+ "sec": {
+  "ok": true,
+  "n": 96,
+  "status": 200,
+  "s": 19
+ },
+ "rip": {
+  "ok": true,
+  "n": 70,
+  "status": 200,
+  "s": 9
+ },
+ "ita": {
+  "ok": true,
+  "n": 60,
+  "status": 200,
+  "s": 12
+ },
+ "bice": {
+  "ok": true,
+  "n": 81,
+  "status": 200,
+  "s": 30
+ },
+ "be": {
+  "ok": true,
+  "n": 113,
+  "status": 200,
+  "s": 9
+ },
+ "bci": {
+  "ok": true,
+  "n": 170,
+  "status": 200,
+  "s": 9
+ }
+}
