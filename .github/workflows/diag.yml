@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 scraper/diag.py
+      - run: pip install -q playwright==1.47.0
+      - run: python3 scraper/diag2.py
+        continue-on-error: true
       - name: Guardar resultados
         run: |
           git config user.name "github-actions[bot]"
