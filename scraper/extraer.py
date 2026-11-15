@@ -100,8 +100,7 @@ async def run(only=None):
     rep = {}
     async with async_playwright() as p:
         b = await p.chromium.launch(channel="chrome", args=["--disable-blink-features=AutomationControlled"])
-        for k, (url, js) in JS.items():
-            if only and k not in only: continue
+        async def banco(k, url, js):
             t0 = time.time()
             ctx = await b.new_context(user_agent=UA, locale="es-CL", timezone_id="America/Santiago", viewport={"width": 1280, "height": 900})
             page = await ctx.new_page()
@@ -133,8 +132,16 @@ async def run(only=None):
                     await asyncio.sleep(20)
                     ctx = await b.new_context(user_agent=UA, locale="es-CL", timezone_id="America/Santiago", viewport={"width": 1280, "height": 900})
                     page = await ctx.new_page()
-            await ctx.close()
-            print(k, rep[k], flush=True)
+            try: await ctx.close()
+            except Exception: pass
+        for k, (url, js) in JS.items():
+            if only and k not in only: continue
+            t0 = time.time()
+            try:
+                await asyncio.wait_for(banco(k, url, js), timeout=900)
+            except Exception as e:
+                rep[k] = {"ok": False, "error": "tiempo agotado o error: " + repr(e)[:200], "s": round(time.time() - t0)}
+            print(k, rep.get(k), flush=True)
         await b.close()
     json.dump(rep, open(os.path.join(OUT, "_extraccion.json"), "w"), ensure_ascii=False, indent=1)
 
