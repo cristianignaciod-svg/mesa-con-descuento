@@ -42,9 +42,8 @@
  },
  "BICE": {
   "antes": 108,
-  "nuevos": 0,
-  "conservados": 108,
-  "estado": "sin cambios (falló la revisión)"
+  "ahora": 108,
+  "estado": "actualizado"
  },
  "BancoEstado": {
   "antes": 68,

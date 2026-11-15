@@ -1,13 +1,19 @@
 bch {'ok': True, 'n': 355, 'status': 200, 's': 13, 'vuelta': 0}
-san {'ok': True, 'n': 97, 'status': 200, 's': 9, 'vuelta': 0}
-sco {'ok': True, 'n': 143, 'status': 200, 's': 10, 'vuelta': 0}
-fal {'ok': True, 'n': 90, 'status': 200, 's': 27, 'vuelta': 0}
-sec {'ok': True, 'n': 96, 'status': 200, 's': 18, 'vuelta': 0}
+san {'ok': True, 'n': 97, 'status': 200, 's': 16, 'vuelta': 0}
+sco {'ok': True, 'n': 143, 'status': 200, 's': 11, 'vuelta': 0}
+fal {'ok': True, 'n': 90, 'status': 200, 's': 97, 'vuelta': 1}
+sec {'ok': True, 'n': 96, 'status': 200, 's': 19, 'vuelta': 0}
 rip {'ok': True, 'n': 70, 'status': 200, 's': 9, 'vuelta': 0}
-ita {'ok': True, 'n': 0, 'status': 403, 's': 939, 'vuelta': 1}
 Future exception was never retrieved
 future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
 playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
-bice {'ok': True, 'n': 0, 'status': 200, 's': 29, 'vuelta': 0}
-be {'ok': True, 'n': 113, 'status': 200, 's': 10, 'vuelta': 0}
+Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
+ita {'ok': False, 'error': 'TimeoutError()', 's': 2772}
+Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
+bice {'ok': True, 'n': 81, 'status': 200, 's': 35, 'vuelta': 0}
+be {'ok': True, 'n': 113, 'status': 200, 's': 9, 'vuelta': 0}
 bci {'ok': True, 'n': 170, 'status': 200, 's': 9, 'vuelta': 0}
