@@ -208,17 +208,19 @@ def itau():
         cm = cm_exact(com)
         if not cm: continue
         d = it.get('d') or ''
+        if 'Enable JavaScript' in d or d.startswith('ERR'): d = ''
         hm = re.search(r'hasta el (\d{2})-(\d{2})-(\d{4})', d)
         vence = f"{hm.group(3)}-{hm.group(2)}-{hm.group(1)}" if hm else None
         bm = re.search(r'Beneficio\|([^|]+)', d)
         ben = bm.group(1) if bm else ''
         dias = parse_days(ben) or parse_days(' '.join(t))
         if not dias: continue
+        if not d: vence = FIN_MES
         if re.search(r'Black', ben) and not re.search(r'Legend', ben): tj = "Solo tarjeta de crédito Black Itaú (Mastercard Black / Visa Signature)"
         elif re.search(r'd[eé]bito', ben, re.I): tj = "Tarjetas de crédito y débito Itaú"
         elif re.search(r'Legend', ben) and re.search(r'Black', ben): tj = "Tarjetas de crédito Legend y Black Itaú"
         elif re.search(r'Legend', ben): tj = "Solo tarjeta de crédito Legend Itaú"
-        else: tj = "Tarjetas de crédito Itaú"
+        else: tj = "Tarjetas de crédito Itaú" if d else "Tarjeta de crédito Legend Itaú (revisa la ficha del local)"
         tm = re.search(r'(?:Tope de descuento:?|M[aá]ximo descuento mensual[^$|]{0,120})\s*\$\s?([\d.]+)', d)
         if tm:
             v = int(tm.group(1).replace('.', ''))

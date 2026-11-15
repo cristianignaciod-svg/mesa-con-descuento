@@ -62,10 +62,12 @@ return [...document.querySelectorAll('.beneficio__item')].filter(a=>a.href).map(
 
 DETALLE_ITA = r"""()=>{const m=(document.querySelector('main')||document.body).cloneNode(true);m.querySelectorAll('script,style,nav,header,footer').forEach(e=>e.remove());return m.textContent.replace(/\s*\n\s*/g,'|').replace(/[ \t]+/g,' ').slice(0,2500)}"""
 
-async def detalles_itau(page, its):
-    """Itaú bloquea los pedidos en ráfaga: abre cada ficha como una visita normal."""
+async def detalles_itau(page, its, limite):
+    """Itaú bloquea los pedidos en ráfaga: abre cada ficha como una visita normal (máx. ~7 minutos;
+    si no alcanza, las fichas que falten se completan con los datos del listado)."""
     for it in its:
-        for intento in range(3):
+        if time.time() > limite: break
+        for intento in range(2):
             try:
                 await page.goto(it["h"], wait_until="domcontentloaded", timeout=45000)
                 await page.wait_for_timeout(1200)
@@ -104,7 +106,7 @@ async def run(only=None):
             ctx = await b.new_context(user_agent=UA, locale="es-CL", timezone_id="America/Santiago", viewport={"width": 1280, "height": 900})
             page = await ctx.new_page()
             ultimo = None
-            for vuelta in range(3 if k in ('ita', 'bice') else 2):
+            for vuelta in range(3 if k == 'bice' else 2):
                 try:
                     resp = None
                     for intento in range(2):
@@ -114,8 +116,8 @@ async def run(only=None):
                         try: titulo = await page.title()
                         except Exception: pass
                         if resp and resp.status < 400 and "Un momento" not in titulo: break
-                    data = await asyncio.wait_for(page.evaluate(js), timeout=600)
-                    if k == "ita": data = await asyncio.wait_for(detalles_itau(page, data), timeout=900)
+                    data = await asyncio.wait_for(page.evaluate(js), timeout=300)
+                    if k == "ita": data = await detalles_itau(page, data, limite=time.time() + 420)
                     n = len(data["lines"] if isinstance(data, dict) and "lines" in data else data["sitios"] if isinstance(data, dict) and "sitios" in data else data["cards"] if isinstance(data, dict) and "cards" in data else data)
                     if not n: raise RuntimeError("sin datos (posible bloqueo)")
                     json.dump(data, open(os.path.join(OUT, f"{k}.json"), "w"), ensure_ascii=False)
