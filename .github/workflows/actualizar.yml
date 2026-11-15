@@ -1,0 +1,42 @@
+name: Actualizar descuentos
+
+on:
+  schedule:
+    # Días 2 y 15 de cada mes, 11:43 UTC (08:43 en Chile en horario de verano)
+    - cron: "43 11 2,15 * *"
+  workflow_dispatch:
+  push:
+    branches: [prueba]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Playwright (usa el Chrome que ya trae el runner)
+        run: for i in 1 2 3; do pip install -q playwright==1.47.0 beautifulsoup4 && break; sleep 20; done
+
+      - name: Revisar los sitios de los bancos
+        run: python3 scraper/extraer.py
+        continue-on-error: true
+
+      - name: Construir datos.json
+        run: python3 scraper/construir.py
+
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add datos.json scraper/reporte.json
+          if [ "${GITHUB_REF_NAME}" = "prueba" ]; then git add -f scraper/crudo; fi
+          git commit -m "Datos $(TZ=America/Santiago date +%F)" || { echo "Sin cambios"; exit 0; }
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 10; done
