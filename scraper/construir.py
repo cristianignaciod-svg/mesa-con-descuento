@@ -315,6 +315,42 @@ def bancoestado():
                 tarjetas="Solo tarjeta de crédito Visa BancoEstado", dcto=pct, tope=tope, vence=vence,
                 condiciones="Presencial; solicita el descuento al pagar. No incluye propina. Sujeto a presupuesto disponible.", fuente=URL)
 
+
+# ---------- Limpieza final (nombres y textos)
+MENORES = {"de", "del", "la", "las", "el", "los", "y", "by", "en", "a", "al", "di", "da", "e"}
+def titulo(n):
+    """Pasa a formato título los nombres escritos completos en MAYÚSCULAS."""
+    letras = [c for c in n if c.isalpha()]
+    if not letras or sum(c.isupper() for c in letras) < 0.8 * len(letras) or len(letras) <= 4: return n
+    out = []
+    for k, w in enumerate(n.split(' ')):
+        lw = w.lower()
+        if k and lw in MENORES: out.append(lw)
+        elif len(w) <= 3 and w.isalpha() and not re.search(r'[AEIOUÁÉÍÓÚ]', w): out.append(w)
+        else: out.append(lw[:1].upper() + lw[1:])
+    return ' '.join(out)
+
+def limpiar(it):
+    n = re.sub(r'\s+', ' ', it['restaurante']).strip()
+    n = re.sub(r'(?<=\w)-(?=[A-ZÁÉÍÓÚ])', ' ', n)  # "Krossbar-Orrego Luco" -> "Krossbar Orrego Luco"
+    if it.get('direccion'): it['direccion'] = re.sub(r'\s*\|\s*', ' · ', it['direccion']).strip(' ·')
+    # horario pegado al nombre ("Krossbar X de 13:00 a 17:00")
+    m = re.search(r'\s+(?:de|desde)\s+(\d{1,2}[:.]\d{2})\s*(?:a|hasta)\s*(\d{1,2}[:.]\d{2})\s*(?:hrs?\.?)?$', n, re.I)
+    if m:
+        n = n[:m.start()].strip()
+        it['condiciones'] = (f"Válido de {m.group(1)} a {m.group(2)}. " + (it.get('condiciones') or '')).strip()
+    # sufijo de lugar ("Roof Burger - Chicureo"): se mueve a la dirección
+    m = re.match(r'^(.{3,}?)\s+[-–]\s+([^-–]{3,40})$', n)
+    if m:
+        lugar = m.group(2).strip()
+        es_lugar = nz(lugar) in CMAP or nz(lugar) == nz(it.get('ciudad', '')) or nz(lugar) in comun.ALIAS or re.search(r'mall|plaza|parque|costanera|outlet|alto |borde|boulevard|terraza|centro', lugar, re.I)
+        if es_lugar:
+            n = m.group(1).strip()
+            if not it.get('direccion') or it['direccion'] == it.get('ciudad'): it['direccion'] = lugar
+            elif nz(lugar) not in nz(it['direccion']): it['direccion'] = lugar + ', ' + it['direccion']
+    it['restaurante'] = titulo(n)
+    return it
+
 BANCOS = ["Banco de Chile", "BCI", "Santander", "Scotiabank", "Banco Falabella", "Security", "Ripley", "Itaú", "BICE", "BancoEstado"]
 
 def main():
@@ -336,6 +372,7 @@ def main():
             keep = [i for i in prev_items if i['banco'] == b and (not i.get('vence') or i['vence'] >= hoy)]
             final += keep; fallidos.append(b); rep[b] = {"antes": antes[b], "nuevos": nuevos[b], "conservados": len(keep), "estado": "sin cambios (falló la revisión)"}
     final += [i for i in prev_items if i['banco'] not in BANCOS and (not i.get('vence') or i['vence'] >= hoy)]
+    final = [limpiar(dict(it)) for it in final if it.get('dias')]
     uniq = {}
     for it in final:
         k = (it['ciudad'], nz(it['restaurante']), it['banco'], it['dcto'], tuple(it['dias']))
