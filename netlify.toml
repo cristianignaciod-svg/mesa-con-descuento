@@ -1,7 +1,7 @@
 [build]
   publish = "."
   # Solo publicar cuando cambia la página o los datos (los cambios del scraper no gastan créditos).
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- index.html datos.json"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- index.html datos.json logos"
 
 [[headers]]
   for = "/datos.json"
