@@ -66,7 +66,7 @@ main .wrap{padding-block:22px 40px;display:flex;flex-direction:column;gap:22px}
 .pday[aria-pressed="true"] .mini{background:var(--saffron);box-shadow:inset 0 0 0 5px color-mix(in srgb,var(--saffron) 70%,#000 12%)}
 .pday[aria-pressed="true"] .mini b{color:#fff}
 .pday[aria-pressed="true"] .mini::after{border-color:rgba(255,255,255,.55)}
-.pday.empty .mini{opacity:.45}
+.pday.vacio .mini{opacity:.4}.pday.vacio .ct{opacity:.7}
 .pday .ct{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 .list-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .count{color:var(--muted);font-size:13px}
@@ -204,7 +204,7 @@ function base(){
 function render(){
   const b=base();
   $("plates").innerHTML=DAYS.map(([k,s])=>{const its=b.filter(i=>i.dias.includes(k));const top=its.reduce((m,i)=>Math.max(m,i.dcto),0);
-    return `<button class="pday${k===TODAY?" is-today":""}${its.length?"":" empty"}" data-day="${k}" aria-pressed="${st.day===k}" aria-label="${s} ${fechaDe(k).replace(/<[^>]+>/g,'')}: ${its.length} opciones">
+    return `<button class="pday${k===TODAY?" is-today":""}${its.length?"":" vacio"}" data-day="${k}" aria-pressed="${st.day===k}" aria-label="${s} ${fechaDe(k).replace(/<[^>]+>/g,'')}: ${its.length} opciones">
       <span class="dn">${k===TODAY?"Hoy":fechaDe(k)}</span><span class="mini"><b>${s}</b></span><span class="ct">${its.length?its.length+" "+(its.length===1?"opción":"opciones"):"sin ofertas"}</span></button>`}).join("");
   const list=b.filter(i=>!st.day||i.dias.includes(st.day)).sort((x,y)=>y.dcto-x.dcto||x.restaurante.localeCompare(y.restaurante,"es"));
   const dl=st.day?DAYS.find(d=>d[0]===st.day)[2]:"";
