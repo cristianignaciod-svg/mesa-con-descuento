@@ -76,6 +76,8 @@ main .wrap{padding-block:22px 40px;display:flex;flex-direction:column;gap:22px}
 .d{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
 .d.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .bank{font-size:14px}
+.bk{display:inline-flex;align-items:center;gap:6px;margin-bottom:3px}
+.bk i{display:inline-grid;place-items:center;min-width:30px;height:22px;padding:0 6px;border-radius:6px;background:var(--bkc,#0f3d3e);color:#fff;font:700 11px/1 "DM Sans",system-ui,sans-serif;font-style:normal;letter-spacing:.3px}
 .bank b{font-weight:700}
 .bank span{color:var(--muted)}
 .meta{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -141,6 +143,7 @@ footer .wrap{padding-block:0 32px;color:var(--muted);font-size:12px}
 <footer><div class="wrap" id="foot">Los beneficios pueden cambiar. Pide el descuento antes de pagar y confirma en la app de tu banco.</div></footer>
 
 <script>
+const BK={"Banco de Chile":["CHI","#1f4e8c"],"BCI":["BCI","#c8102e"],"Santander":["SAN","#d0021b"],"Scotiabank":["SCO","#b5121b"],"Banco Falabella":["FAL","#2c8a3a"],"Security":["SEC","#6b2c91"],"Ripley":["RIP","#4b2a7b"],"Itaú":["ITA","#e06c00"],"BICE":["BIC","#1d5f8f"],"BancoEstado":["EST","#d97a00"],"Tarjeta Vecino Coyhaique":["VEC","#0f766e"]};
 const DAYS=[["lun","Lun","Lunes"],["mar","Mar","Martes"],["mie","Mié","Miércoles"],["jue","Jue","Jueves"],["vie","Vie","Viernes"],["sab","Sáb","Sábado"],["dom","Dom","Domingo"]];
 const TODAY=["dom","lun","mar","mie","jue","vie","sab"][new Date().getDay()];
 const $=id=>document.getElementById(id);
@@ -203,7 +206,7 @@ function render(){
       <h3 class="name">${esc(i.restaurante)}</h3>
       <div class="addr">${esc(i.categoria)}${i.direccion&&i.direccion!==i.ciudad?" · "+esc(i.direccion):""}</div>
       <div class="dchips">${DAYS.map(([k,s])=>`<span class="d${i.dias.includes(k)?" on":""}">${s}</span>`).join("")}</div>
-      <div class="bank"><b>${esc(i.banco)}</b><br><span>${esc(i.tarjetas)}</span></div>
+      <div class="bank"><span class="bk" style="--bkc:${(BK[i.banco]||[])[1]||'#0f3d3e'}"><i>${esc((BK[i.banco]||[])[0]||i.banco.slice(0,3).toUpperCase())}</i><b>${esc(i.banco)}</b></span><br><span>${esc(i.tarjetas)}</span></div>
       <div class="meta"><span>Tope <strong>${esc(i.tope||"—")}</strong></span>${i.vence?`<span>Hasta <strong>${fmtDate(i.vence)}</strong></span>`:""}</div>
       ${i.condiciones?`<div class="cond">${esc(i.condiciones)}</div>`:""}
       <div class="tags">${i.verificado===false?`<span class="badge">Por confirmar</span>`:""}${soon(i.vence)?`<span class="badge">Vence pronto</span>`:""}${i.fuente?`<a class="src" href="${esc(i.fuente)}" target="_blank" rel="noopener">Ver en el sitio</a>`:""}</div>
