@@ -19,11 +19,11 @@
   --r:14px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#111613; --surface:#1a201c; --ink:#ebf0e8; --muted:#9aa79e; --line:#2a332d; --plate:#212924; --plate-rim:#34403a;
+  --bg:#111613; --surface:#1a201c; --ink:#ebf0e8; --muted:#adb9b0; --line:#2a332d; --plate:#212924; --plate-rim:#34403a;
   --head:#0c100e; --head-ink:#ebf0e8; --head-muted:#94a69a;
   --saffron:#f2b23c; --chili:#ec6a50; --basil:#62b276; --plain:#8d9b91; --warn:#f0a65a; --warn-bg:#33261a; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#111613; --surface:#1a201c; --ink:#ebf0e8; --muted:#9aa79e; --line:#2a332d; --plate:#212924; --plate-rim:#34403a;
+  --bg:#111613; --surface:#1a201c; --ink:#ebf0e8; --muted:#adb9b0; --line:#2a332d; --plate:#212924; --plate-rim:#34403a;
   --head:#0c100e; --head-ink:#ebf0e8; --head-muted:#94a69a;
   --saffron:#f2b23c; --chili:#ec6a50; --basil:#62b276; --plain:#8d9b91; --warn:#f0a65a; --warn-bg:#33261a; color-scheme:dark}
 *{box-sizing:border-box}
@@ -76,10 +76,20 @@ main .wrap{padding-block:22px 40px;display:flex;flex-direction:column;gap:22px}
 .d{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
 .d.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .bank{font-size:14px}
-.bk{display:inline-flex;align-items:center;gap:6px;margin-bottom:3px}
-.bk i{display:inline-grid;place-items:center;min-width:30px;height:22px;padding:0 6px;border-radius:6px;background:var(--bkc,#0f3d3e);color:#fff;font:700 11px/1 "DM Sans",system-ui,sans-serif;font-style:normal;letter-spacing:.3px}
+.bk{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-top:2px}
+.blogo{flex:none;display:inline-flex;align-items:center;justify-content:center;height:30px;min-width:56px;max-width:124px;padding:5px 10px;border-radius:9px;background:#fff;border:1px solid var(--line);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.blogo img{display:block;max-height:18px;max-width:104px;width:auto;height:auto;object-fit:contain}
+.blogo.sq{padding:3px 8px}.blogo.sq img{max-height:22px}
+.blogo.txt{background:var(--bkc,#0f3d3e);border-color:transparent;color:#fff;font:700 12px/1 var(--f-body);letter-spacing:.02em}
+.bk .bn{font-size:13px;color:var(--muted);line-height:1.35}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .blogo:not(.txt){background:#dfe4dc;border-color:transparent;box-shadow:none;height:26px;padding:4px 9px}
+:root:not([data-theme="light"]) .blogo img{max-height:15px;opacity:.92}
+:root:not([data-theme="light"]) .bank .tj{color:#c9d3cb}}
+:root[data-theme="dark"] .blogo:not(.txt){background:#dfe4dc;border-color:transparent;box-shadow:none;height:26px;padding:4px 9px}
+:root[data-theme="dark"] .blogo img{max-height:15px;opacity:.92}
+:root[data-theme="dark"] .bank .tj{color:#c9d3cb}
 .bank b{font-weight:700}
-.bank span{color:var(--muted)}
+.bank .tj{color:var(--muted)}
 .meta{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 .meta strong{color:var(--ink);font-weight:500}
 .cond{font-size:12px;color:var(--muted)}
@@ -143,7 +153,8 @@ footer .wrap{padding-block:0 32px;color:var(--muted);font-size:12px}
 <footer><div class="wrap" id="foot">Los beneficios pueden cambiar. Pide el descuento antes de pagar y confirma en la app de tu banco.</div></footer>
 
 <script>
-const BK={"Banco de Chile":["CHI","#1f4e8c"],"BCI":["BCI","#c8102e"],"Santander":["SAN","#d0021b"],"Scotiabank":["SCO","#b5121b"],"Banco Falabella":["FAL","#2c8a3a"],"Security":["SEC","#6b2c91"],"Ripley":["RIP","#4b2a7b"],"Itaú":["ITA","#e06c00"],"BICE":["BIC","#1d5f8f"],"BancoEstado":["EST","#d97a00"],"Tarjeta Vecino Coyhaique":["VEC","#0f766e"]};
+const LOGO={"Banco de Chile":"banco-de-chile","BCI":"bci","Santander":"santander","Scotiabank":"scotiabank","Banco Falabella":"banco-falabella","Security":"security","Ripley":"ripley","Itaú":"itau","BICE":"bice","BancoEstado":"bancoestado"};
+const logo=b=>LOGO[b]?`<span class="blogo${b==="Itaú"?" sq":""}"><img src="logos/${LOGO[b]}.png" alt="${esc(b)}" loading="lazy" decoding="async"></span>`:`<span class="blogo txt" style="--bkc:#0f766e">${esc(b.split(" ").map(w=>w[0]).join("").slice(0,3).toUpperCase())}</span>`;
 const DAYS=[["lun","Lun","Lunes"],["mar","Mar","Martes"],["mie","Mié","Miércoles"],["jue","Jue","Jueves"],["vie","Vie","Viernes"],["sab","Sáb","Sábado"],["dom","Dom","Domingo"]];
 const TODAY=["dom","lun","mar","mie","jue","vie","sab"][new Date().getDay()];
 const $=id=>document.getElementById(id);
@@ -206,7 +217,7 @@ function render(){
       <h3 class="name">${esc(i.restaurante)}</h3>
       <div class="addr">${esc(i.categoria)}${i.direccion&&i.direccion!==i.ciudad?" · "+esc(i.direccion):""}</div>
       <div class="dchips">${DAYS.map(([k,s])=>`<span class="d${i.dias.includes(k)?" on":""}">${s}</span>`).join("")}</div>
-      <div class="bank"><span class="bk" style="--bkc:${(BK[i.banco]||[])[1]||'#0f3d3e'}"><i>${esc((BK[i.banco]||[])[0]||i.banco.slice(0,3).toUpperCase())}</i><b>${esc(i.banco)}</b></span><br><span>${esc(i.tarjetas)}</span></div>
+      <div class="bank"><div class="bk">${logo(i.banco)}<span class="bn"><span class="tj">${esc(i.tarjetas)}</span></span></div></div>
       <div class="meta"><span>Tope <strong>${esc(i.tope||"—")}</strong></span>${i.vence?`<span>Hasta <strong>${fmtDate(i.vence)}</strong></span>`:""}</div>
       ${i.condiciones?`<div class="cond">${esc(i.condiciones)}</div>`:""}
       <div class="tags">${i.verificado===false?`<span class="badge">Por confirmar</span>`:""}${soon(i.vence)?`<span class="badge">Vence pronto</span>`:""}${i.fuente?`<a class="src" href="${esc(i.fuente)}" target="_blank" rel="noopener">Ver en el sitio</a>`:""}</div>
@@ -215,7 +226,7 @@ function render(){
 function renderStamp(){
   if(!meta){return}
   $("stamp").innerHTML=`Actualizado <b>${fmtDate(meta.actualizado)}</b><br>Próxima revisión <b>${fmtDate(meta.proxima)}</b><br>${esc(meta.calendario||"")}`;
-  if(meta.bancos)$("foot").textContent=`Bancos revisados: ${meta.bancos.join(", ")}. Los beneficios pueden cambiar; pide el descuento antes de pagar y confírmalo en la app de tu banco.`;
+  if(meta.bancos)$("foot").textContent=`Bancos revisados: ${meta.bancos.join(", ")}. Los beneficios pueden cambiar; pide el descuento antes de pagar y confírmalo en la app de tu banco. Logos: marcas de cada banco, vía Wikimedia Commons (Ripley y BICE bajo CC BY-SA 4.0).`;
 }
 document.addEventListener("change",e=>{
   if(e.target.id==="f-region"){st.region=e.target.value;st.city="";buildFilters()}
