@@ -52,6 +52,10 @@ select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid 
 main .wrap{padding-block:22px 40px;display:flex;flex-direction:column;gap:22px}
 .week h2,.list-head h2{font-family:var(--f-display);font-weight:700;font-size:20px;margin:0}
 .week-sub{color:var(--muted);font-size:13px;margin:2px 0 12px}
+.w-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.w-all{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.w-all[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+#f-days[hidden]{display:none}
 .plates{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
 .pday{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:8px 0;cursor:pointer;color:var(--ink);font:inherit;border-radius:12px}
 .pday:hover{background:var(--surface)}
@@ -141,14 +145,14 @@ footer .wrap{padding-block:0 32px;color:var(--muted);font-size:12px}
       <div class="field"><label for="f-bank">Banco o tarjeta</label><select id="f-bank"></select></div>
       <div class="field grow"><label for="f-q">Buscar</label><input id="f-q" type="search" placeholder="Restaurante, comida o dirección"></div>
     </div>
-    <div class="days" id="f-days" role="group" aria-label="Día"></div>
+    <div class="days" id="f-days" role="group" aria-label="Día" hidden></div>
   </div>
 </div>
 
 <main>
   <div class="wrap">
     <section class="week" aria-labelledby="w-title">
-      <h2 id="w-title">Tu semana en la mesa</h2>
+      <div class="w-head"><h2 id="w-title">Tu semana en la mesa</h2><button class="w-all" id="w-all" data-day="" aria-pressed="false">Ver toda la semana</button></div>
       <p class="week-sub" id="w-sub">Elige un día para ver dónde comer con descuento.</p>
       <div class="plates" id="plates"></div>
     </section>
@@ -206,6 +210,7 @@ function base(){
 }
 function render(){
   const b=base();
+  $("w-all").setAttribute("aria-pressed",String(!st.day));
   $("plates").innerHTML=DAYS.map(([k,s])=>{const its=b.filter(i=>i.dias.includes(k));const top=its.reduce((m,i)=>Math.max(m,i.dcto),0);
     return `<button class="pday${k===TODAY?" is-today":""}${its.length?"":" vacio"}" data-day="${k}" aria-pressed="${st.day===k}" aria-label="${s} ${fechaDe(k).replace(/<[^>]+>/g,'')}: ${its.length} opciones">
       <span class="dn">${k===TODAY?"Hoy":fechaDe(k)}</span><span class="mini"><b>${s}</b></span><span class="ct">${its.length?its.length+" "+(its.length===1?"opción":"opciones"):"sin ofertas"}</span></button>`}).join("");
